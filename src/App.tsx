@@ -11,10 +11,14 @@ const App = () => {
         <BtnContainer />
         <FormContainer />
       </div>
-      <LucideLayers3 className="m-5 md:hidden" onClick={()=>{
-        const nav = document.querySelector("#navBar");
-        nav?.classList.add("translate-x-0");
-      }} />
+      <LucideLayers3
+        className="m-5 md:hidden"
+        size={25}
+        onClick={() => {
+          const nav = document.querySelector("#navBar");
+          nav?.classList.add("translate-x-0");
+        }}
+      />
     </div>
   );
 };
