@@ -1,9 +1,10 @@
-function App() {
+import { BtnContainer } from "./components/BtnContainer";
+const App = () => {
   return (
-    <>
-      <h2 className="text-yellow-500 text-4xl font-bold">Hello World</h2>
-    </>
+    <div className="h-screen w-full">
+      <BtnContainer />
+    </div>
   );
-}
+};
 
 export default App;
