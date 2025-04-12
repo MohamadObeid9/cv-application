@@ -7,17 +7,17 @@ const App = () => {
   return (
     <div className="flex">
       <div
-        className="max-md:bg-gray-100 h-screen flex max-md:flex-col justify-between max-md:fixed  transition-transform -translate-x-full md:translate-x-0"
+        className="max-xl:bg-gray-100 h-screen flex max-xl:flex-col justify-between max-lg:fixed  transition-transform -translate-x-full lg:translate-x-0"
         id="navBar"
       >
-        <div className="flex max-md:flex-col">
+        <div className="flex max-xl:flex-col">
           <BtnContainer />
           <FormContainer />
         </div>
-        <GithubLink style={"md:hidden flex justify-center items-end"} />
+        <GithubLink style={"xl:hidden flex justify-center items-end"} />
       </div>
       <LucideLayers3
-        className="m-5 md:hidden"
+        className="m-5 lg:hidden"
         size={25}
         onClick={() => {
           const nav = document.querySelector("#navBar");

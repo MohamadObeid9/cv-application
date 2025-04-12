@@ -1,4 +1,12 @@
-import { GraduationCap, ChevronDown, ChevronUp, Plus } from "lucide-react";
+import {
+  GraduationCap,
+  ChevronDown,
+  ChevronUp,
+  Plus,
+  Trash2,
+  Check,
+  X,
+} from "lucide-react";
 import { Input } from "./Input";
 import { useState } from "react";
 export const EducationDetails = () => {
@@ -61,6 +69,27 @@ export const EducationDetails = () => {
                 placeHolder="Berlin,Germany"
                 required={true}
               />
+              <div className="flex justify-between my-2">
+                <button className="flex items-center  rounded-lg gap-1 px-1 border border-red-500 hover:bg-red-500 hover:text-white">
+                  <Trash2 size={15} />
+                  Delete
+                </button>
+                <div className="flex gap-2">
+                  <button className="flex items-center rounded-lg gap-1 px-1 border border-blue-500 hover:bg-blue-500 hover:text-white">
+                    <Check size={15} />
+                    Save
+                  </button>
+                  <button
+                    className="flex items-center rounded-lg gap-1 px-1 border border-black hover:bg-black hover:text-white"
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                  >
+                    <X size={15} />
+                    Cancel
+                  </button>
+                </div>
+              </div>
             </div>
           )}
           {/* Add education button */}
