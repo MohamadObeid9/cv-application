@@ -1,4 +1,4 @@
-export const Input = ({ value, type, placeHolder,required }: props) => {
+export const Input = ({ value, type, placeHolder, required }: props) => {
   return (
     <div className="mt-2">
       <label htmlFor={value} className="font-semibold tracking-wide">
@@ -7,7 +7,9 @@ export const Input = ({ value, type, placeHolder,required }: props) => {
           type={type}
           value=""
           id={value}
-          className="border my-1 w-full rounded-lg border-slate-400 p-1"
+          className={`border my-1 w-full rounded-lg border-slate-400 p-1 ${
+            type === "date" ? "text-slate-600" : ""
+          }`}
           placeholder={placeHolder}
           required={required}
         />
@@ -19,5 +21,5 @@ type props = {
   value: string;
   type: string;
   placeHolder: string;
-  required:boolean;
+  required: boolean;
 };

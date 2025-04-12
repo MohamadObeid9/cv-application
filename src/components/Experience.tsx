@@ -3,7 +3,7 @@ import { useState } from "react";
 export const ExperienceDetails = () => {
   const [expended, setExpended] = useState(false);
   const handleClick = () => {
-    return expended ? setExpended(false) : setExpended(true);
+    setExpended(expended ? false : true);
   };
   return (
     <div className=" border p-5 rounded-lg mb-5 w-[90%] border-slate-400">

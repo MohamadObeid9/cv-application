@@ -2,7 +2,7 @@ import { FileUser, FilePlus, Download, Trash2, X } from "lucide-react";
 import { GithubLink } from "./GithubLink";
 export const BtnContainer = () => {
   return (
-    <div className="px-5 flex flex-col md:h-screen max-md:bg-gray-100 justify-between md:border-r  border-slate-400  dark:border-slate-400 ">
+    <div className="px-5 max-md:sticky max-md:top-0 flex flex-col md:h-screen justify-between md:border-r  border-slate-400  dark:border-slate-400 ">
       <div>
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold mt-5 mb-5 md:mb-10 flex items-center gap-2">

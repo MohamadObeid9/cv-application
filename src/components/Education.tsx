@@ -1,20 +1,79 @@
-import { GraduationCap, ChevronDown, ChevronUp } from "lucide-react";
+import { GraduationCap, ChevronDown, ChevronUp, Plus } from "lucide-react";
+import { Input } from "./Input";
 import { useState } from "react";
 export const EducationDetails = () => {
   const [expended, setExpended] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("Untitled Degree");
   const handleClick = () => {
-    return expended ? setExpended(false) : setExpended(true);
+    setExpended(expended ? false : true);
+  };
+  const addEducationClick = () => {
+    setOpen(open ? false : true);
   };
   return (
-    <div className=" border p-5 rounded-lg w-[90%] border-slate-400">
+    <div className="border px-5 rounded-lg w-[90%] border-slate-400">
       {/* Header Section */}
-      <div className="flex justify-between  items-center" onClick={handleClick}>
+      <div
+        className={`flex justify-between items-center py-5 ${
+          expended ? "border-b border-slate-400" : ""
+        }`}
+        onClick={handleClick}
+      >
         <h1 className="flex font-bold text-xl gap-2 items-center cursor-default">
           <GraduationCap />
-          Eduaction
+          Education
         </h1>
         {expended ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
       </div>
+      {expended && (
+        <div>
+          {open && (
+            <div className="border border-slate-400 rounded-lg mt-3 px-3 py-2">
+              <h1 className="font-bold text-lg  tracking-wide">{value}</h1>
+              <Input
+                type="text"
+                value="Degree"
+                placeHolder="Degree | Field of study"
+                required={true}
+              />
+              <Input
+                type="text"
+                value="School"
+                placeHolder="School | College | University"
+                required={true}
+              />
+              <Input
+                type="date"
+                value="Start Date"
+                placeHolder="02-3-2023"
+                required={true}
+              />
+              <Input
+                type="date"
+                value="End Date"
+                placeHolder="10-2-2025"
+                required={true}
+              />
+              <Input
+                type="text"
+                value="Location"
+                placeHolder="Berlin,Germany"
+                required={true}
+              />
+            </div>
+          )}
+          {/* Add education button */}
+          <div className="flex flex-col items-center">
+            <button
+              className="flex items-center gap-1 font-semibold my-3 border border-blue-400 rounded-full px-3 py-2 hover:bg-blue-400 hover:text-white"
+              onClick={addEducationClick}
+            >
+              <Plus size={20} /> Add Education
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

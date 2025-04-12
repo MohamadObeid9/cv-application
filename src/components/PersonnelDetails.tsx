@@ -4,17 +4,15 @@ import { Input } from "./Input";
 export const PersonnnelDetails = () => {
   const [expended, setExpended] = useState(false);
   const handleClick = () => {
-    return expended ? setExpended(false) : setExpended(true);
+    setExpended(expended ? false : true);
   };
   return (
-    <div className=" border px-5 rounded-lg mt-1 md:mt-5 w-[90%] border-slate-400">
+    <div className=" border px-5  rounded-lg mt-1 md:mt-5 w-[90%] border-slate-400">
       {/* Header Section */}
       <div
-        className={
-          expended
-            ? "flex justify-between  items-center py-5 border-slate-400 border-b"
-            : "flex justify-between  items-center py-5"
-        }
+        className={`flex justify-between items-center py-5 ${
+          expended ? "border-b border-slate-400" : ""
+        }`}
         onClick={handleClick}
       >
         <h1 className="flex font-bold text-xl gap-2 items-center cursor-default">
@@ -34,13 +32,13 @@ export const PersonnnelDetails = () => {
           <Input
             value="Email"
             type="email"
-            placeHolder="fake.email@exemple.com"
+            placeHolder="john.smith@example.com"
             required={true}
           />
           <Input
             value="Phone Number"
             type="tel"
-            placeHolder="+1 234-567-890"
+            placeHolder="+1 (555) 123-4567"
             required={true}
           />
           <Input
