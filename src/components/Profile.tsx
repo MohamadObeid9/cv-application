@@ -6,7 +6,7 @@ export const Profile = () => {
     setExpended(expended ? false : true);
   };
   return (
-    <div className=" border px-5 rounded-lg w-[90%] border-slate-400">
+    <div className="shadow-xl border px-5 rounded-lg w-[90%] border-slate-400">
       {/* Header Section */}
       <div
         className={`flex justify-between items-center py-5 ${

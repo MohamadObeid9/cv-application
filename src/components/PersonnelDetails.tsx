@@ -7,7 +7,7 @@ export const PersonnnelDetails = () => {
     setExpended(expended ? false : true);
   };
   return (
-    <div className=" border px-5  rounded-lg mt-1 lg:mt-5 w-[90%] border-slate-400">
+    <div className=" border px-5  rounded-lg mt-1 lg:mt-5 w-[90%] border-slate-400 shadow-xl">
       {/* Header Section */}
       <div
         className={`flex justify-between items-center py-5 ${

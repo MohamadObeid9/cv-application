@@ -1,7 +1,7 @@
-import { LucideLayers3 } from "lucide-react";
 import { BtnContainer } from "./components/BtnContainer";
 import { FormContainer } from "./components/FormContainer";
 import { GithubLink } from "./components/GithubLink";
+import { Preview } from "./components/Preview";
 
 const App = () => {
   return (
@@ -16,14 +16,7 @@ const App = () => {
         </div>
         <GithubLink style={"xl:hidden flex justify-center items-end"} />
       </div>
-      <LucideLayers3
-        className="m-5 lg:hidden"
-        size={25}
-        onClick={() => {
-          const nav = document.querySelector("#navBar");
-          nav?.classList.add("translate-x-0");
-        }}
-      />
+      <Preview />
     </div>
   );
 };
