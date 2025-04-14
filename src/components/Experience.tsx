@@ -136,7 +136,7 @@ export const ExperienceDetails = () => {
               className="flex items-center gap-1 font-semibold my-3 border border-blue-400 rounded-full px-3 py-2 hover:bg-blue-400 hover:text-white"
               onClick={addExperienceClick}
             >
-              <Plus size={20} /> Add Education
+              <Plus size={20} /> Add Experience
             </button>
           </div>
         </div>

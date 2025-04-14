@@ -6,7 +6,7 @@ import { Skills } from "./Skills";
 
 export const FormContainer = () => {
   return (
-    <div className="xl:bg-gray-100 flex flex-col max-xl:my-3 items-center gap-3  w-sm max-xl:py-2 max-xl:max-h-[75vh] overflow-auto">
+    <div className="xl:bg-gray-100 flex flex-col max-xl:my-3 items-center gap-3  w-sm max-xl:py-2 max-xl:max-h-[75vh] max-h-screen xl:pb-10 overflow-auto">
       <PersonnnelDetails />
       <Profile />
       <EducationDetails />

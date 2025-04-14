@@ -1,8 +1,9 @@
 import { FileUser, FilePlus, Download, Trash2, X } from "lucide-react";
 import { GithubLink } from "./GithubLink";
-export const BtnContainer = () => {
+type props = { closeNavBar: React.Dispatch<React.SetStateAction<boolean>> };
+export const BtnContainer = ({ closeNavBar }: props) => {
   return (
-    <div className="px-5 max-xl:sticky  max-xl:top-0 flex flex-col xl:h-screen justify-between xl:border-r  border-gray-400  ">
+    <div className="px-5 max-xl:sticky  max-xl:top-0 flex flex-col xl:max-h-screen justify-between xl:border-r  border-gray-400  ">
       <div>
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-semibold mt-5 mb-5 xl:mb-10 flex items-center gap-2">
@@ -15,10 +16,9 @@ export const BtnContainer = () => {
             CV Generator
           </h1>
           <X
-            className="lg:hidden"
+            className="lg:hidden cursor-pointer"
             onClick={() => {
-              const nav = document.querySelector("#navBar");
-              nav?.classList.remove("translate-x-0");
+              closeNavBar(false);
             }}
           />
         </div>
