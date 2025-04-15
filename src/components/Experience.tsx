@@ -23,6 +23,8 @@ export const ExperienceDetails = ({ experience, expended, onClick }: props) => {
   const [editOpen, setEditOpen] = useState(false);
   const handleClick = () => {
     onClick();
+    setEditOpen(false);
+    setOpen(false);
   };
   const addExperienceClick = () => {
     setOpen(open ? false : true);

@@ -5,11 +5,13 @@ type props = {
   personnelDetails: typeof exampleData.personnelDetails;
   expended: boolean;
   onClick: () => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 export const PersonnnelDetails = ({
   personnelDetails,
   expended,
   onClick,
+  onChange,
 }: props) => {
   const handleClick = () => {
     onClick();
@@ -34,6 +36,7 @@ export const PersonnnelDetails = ({
           <Input
             title="Full Name"
             value={personnelDetails.fullName}
+            onChange={onChange}
             name="fullName"
             type="text"
             placeHolder="John Smith"
@@ -42,6 +45,7 @@ export const PersonnnelDetails = ({
           <Input
             title="Job Title"
             value={personnelDetails.jobTitle}
+            onChange={onChange}
             name="jobTitle"
             type="text"
             placeHolder="Full Stack Developer"
@@ -50,6 +54,7 @@ export const PersonnnelDetails = ({
           <Input
             title="Email"
             value={personnelDetails.email}
+            onChange={onChange}
             name="email"
             type="email"
             placeHolder="john.smith@example.com"
@@ -58,6 +63,7 @@ export const PersonnnelDetails = ({
           <Input
             title="Phone Number"
             value={personnelDetails.phone}
+            onChange={onChange}
             name="phone"
             type="tel"
             placeHolder="+1 (555) 123-4567"
@@ -66,6 +72,8 @@ export const PersonnnelDetails = ({
           {/* <Input
             title="Address"
             value=""
+            onChange={onChange}
+
             name=""
             type="text"
             placeHolder="123 Main St, City, Country"
@@ -74,6 +82,7 @@ export const PersonnnelDetails = ({
           <Input
             title="LinkedIn Profile"
             value={personnelDetails.linkedin}
+            onChange={onChange}
             name="linkedin"
             type="url"
             placeHolder="https://www.linkedin.com/in/your-profile/"
@@ -82,6 +91,7 @@ export const PersonnnelDetails = ({
           <Input
             title="Github Profile"
             value={personnelDetails.github}
+            onChange={onChange}
             name="github"
             type="url"
             placeHolder="https://github.com/your-user-name"

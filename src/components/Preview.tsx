@@ -9,7 +9,7 @@ export const Preview = ({ openNavBar, data }: props) => {
     openNavBar(true);
   };
   return (
-    <div className="bg-gray-300 w-full max-h-screen overflow-auto">
+    <div className="bg-gray-300 w-full h-screen overflow-auto">
       <div className="bg-gray-400 py-px sticky top-0">
         <LucideLayers3
           className="m-5 lg:hidden cursor-pointer"
@@ -17,7 +17,7 @@ export const Preview = ({ openNavBar, data }: props) => {
           onClick={handleClick}
         />
       </div>
-      <div className="bg-white mx-5 md:mx-10 mt-5 mb-10 px-5 md:px-10 pt-2 md:pt-5 pb-5 md:pb-10 flex flex-col">
+      <div className="bg-white min-h-[85vh] mx-5 md:mx-10 mt-5 mb-10 px-5 md:px-10 pt-2 md:pt-5 pb-5 md:pb-10 flex flex-col">
         <h1 className="text-center font-bold text-3xl capitalize mt-5 mb-1 tracking-wide">
           {data.personnelDetails.fullName}
         </h1>
@@ -25,42 +25,54 @@ export const Preview = ({ openNavBar, data }: props) => {
           {data.personnelDetails.jobTitle}
         </h3>
         <div className=" flex flex-col items-start md:grid md:grid-cols-2 xl:grid-cols-4 gap-2 mb-5">
-          <div className="flex  gap-1 md:justify-center text-xs   hover:text-blue-500 cursor-pointer">
-            <span className="font-bold">Phone:</span>
-            {data.personnelDetails.phone}
-          </div>
-          <div className="flex  gap-1  text-xs   hover:text-blue-500 cursor-pointer">
-            <span className="font-bold">Email:</span>
-            {data.personnelDetails.email}
-          </div>
-          <div className="flex  gap-1  text-xs md:justify-center  hover:text-blue-500">
-            <span className="font-bold">Github:</span>
-            <a href={data.personnelDetails.github}>
-              {data.personnelDetails.github.slice(8)}
-            </a>
-          </div>
-          <div className="flex  gap-1  text-xs  hover:text-blue-500">
-            <span className="font-bold">LinkedIn:</span>
-            <a href={data.personnelDetails.linkedin}>
-              {data.personnelDetails.linkedin.slice(8)}
-            </a>
-          </div>
+          {data.personnelDetails.phone && (
+            <div className="flex  gap-1 md:justify-center text-xs   hover:text-blue-500 cursor-pointer">
+              <span className="font-bold">Phone:</span>
+              {data.personnelDetails.phone}
+            </div>
+          )}
+          {data.personnelDetails.email && (
+            <div className="flex  gap-1  text-xs   hover:text-blue-500 cursor-pointer">
+              <span className="font-bold">Email:</span>
+              {data.personnelDetails.email}
+            </div>
+          )}
+          {data.personnelDetails.github && (
+            <div className="flex  gap-1  text-xs md:justify-center  hover:text-blue-500">
+              <span className="font-bold">Github:</span>
+              <a href={data.personnelDetails.github}>
+                {data.personnelDetails.github.slice(8)}
+              </a>
+            </div>
+          )}
+          {data.personnelDetails.linkedin && (
+            <div className="flex  gap-1  text-xs  hover:text-blue-500">
+              <span className="font-bold">LinkedIn:</span>
+              <a href={data.personnelDetails.linkedin}>
+                {data.personnelDetails.linkedin.slice(8)}
+              </a>
+            </div>
+          )}
         </div>
-        <div className="flex items-center">
-          <h1 className="font-bold text-lg md:text-2xl tracking-wide mr-2">
-            Profile
-          </h1>
-          <div className=" w-full border-b-3 mt-3 md:mt-5"></div>
-        </div>
+        {data.profile.summary && (
+          <div className="flex items-center">
+            <h1 className="font-bold text-lg md:text-2xl tracking-wide mr-2">
+              Profile
+            </h1>
+            <div className=" w-full border-b-3 mt-3 md:mt-5"></div>
+          </div>
+        )}
         <div className="text-xs md:text-sm my-2 md:my-5 ">
           {data.profile.summary}
         </div>
-        <div className="flex items-center  my-2 md:my-5">
-          <h1 className="font-bold text-lg md:text-2xl tracking-wide whitespace-nowrap mr-2">
-            Work Experience
-          </h1>
-          <div className="w-full border-b-3 mt-2 md:mt-5"></div>
-        </div>
+        {data.workExperience.length > 0 && (
+          <div className="flex items-center  my-2 md:my-5">
+            <h1 className="font-bold text-lg md:text-2xl tracking-wide whitespace-nowrap mr-2">
+              Work Experience
+            </h1>
+            <div className="w-full border-b-3 mt-2 md:mt-5"></div>
+          </div>
+        )}
         {data.workExperience.map((experience) => (
           <>
             <div className="font-bold md:text-lg">{experience.jobTitle}</div>
@@ -86,12 +98,14 @@ export const Preview = ({ openNavBar, data }: props) => {
           </>
         ))}
 
-        <div className="flex items-center my-2 md:my-5">
-          <h1 className="font-bold text-lg md:text-2xl tracking-wide whitespace-nowrap mr-2">
-            Education
-          </h1>
-          <div className=" w-full border-b-3 mt-2 md:mt-5"></div>
-        </div>
+        {data.education.length > 0 && (
+          <div className="flex items-center my-2 md:my-5">
+            <h1 className="font-bold text-lg md:text-2xl tracking-wide whitespace-nowrap mr-2">
+              Education
+            </h1>
+            <div className=" w-full border-b-3 mt-2 md:mt-5"></div>
+          </div>
+        )}
         {data.education.map((section) => (
           <>
             <div className="flex items-center">
@@ -114,12 +128,14 @@ export const Preview = ({ openNavBar, data }: props) => {
           </>
         ))}
 
-        <div className="flex items-center my-2 md:my-5">
-          <h1 className="font-bold text-lg md:text-2xl tracking-wide whitespace-nowrap mr-2">
-            Technical Skills
-          </h1>
-          <div className=" w-full border-b-3 mt-2 md:mt-5"></div>
-        </div>
+        {data.technicalSkills.length > 0 && (
+          <div className="flex items-center my-2 md:my-5">
+            <h1 className="font-bold text-lg md:text-2xl tracking-wide whitespace-nowrap mr-2">
+              Technical Skills
+            </h1>
+            <div className=" w-full border-b-3 mt-2 md:mt-5"></div>
+          </div>
+        )}
         {data.technicalSkills.map((section) => (
           <div className="flex max-md:flex-col max-md:items-start gap-2 items-center my-2 max-md:pl-2">
             <div className="font-bold max-md:text-sm">

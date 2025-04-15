@@ -15,12 +15,15 @@ type props = {
   skills: typeof exampleData.technicalSkills;
   expended: boolean;
   onClick: () => void;
+  onChange: (skillData: typeof exampleData.technicalSkills) => void;
 };
-export const Skills = ({ skills, expended, onClick }: props) => {
+export const Skills = ({ skills, expended, onClick, onChange }: props) => {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpend] = useState(false);
   const handleClick = () => {
     onClick();
+    setEditOpend(false);
+    setOpen(false);
   };
   const addSkillsClick = () => {
     setOpen(open ? false : true);
@@ -34,7 +37,6 @@ export const Skills = ({ skills, expended, onClick }: props) => {
         }`}
         onClick={handleClick}
       >
-        {" "}
         <h1 className="flex font-bold text-xl gap-2 items-center cursor-default">
           <TerminalSquareIcon />
           Skills

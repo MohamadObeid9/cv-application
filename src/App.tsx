@@ -22,26 +22,9 @@ const App = () => {
       profile: {
         summary: "",
       },
-      workExperience: [
-        {
-          jobTitle: "",
-          company: "",
-          companyLocation: "",
-          startDate: "",
-          endDate: "",
-          responsibilities: [],
-        },
-      ],
-      education: [
-        {
-          degree: "",
-          university: "",
-          uniLocation: "",
-          startDate: "",
-          endDate: "",
-        },
-      ],
-      technicalSkills: [{ skillTitle: "", skills: "" }],
+      workExperience: [],
+      education: [],
+      technicalSkills: [],
     });
   };
 
@@ -58,7 +41,7 @@ const App = () => {
             clear={handleClear}
             example={loadExample}
           />
-          <FormContainer data={data} />
+          <FormContainer data={data} setData={setData} />
         </div>
         <GithubLink style={"xl:hidden flex justify-center items-end"} />
       </div>

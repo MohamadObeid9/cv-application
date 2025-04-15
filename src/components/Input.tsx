@@ -5,6 +5,7 @@ type props = {
   name: string;
   placeHolder: string;
   required: boolean;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 export const Input = ({
   title,
@@ -13,6 +14,7 @@ export const Input = ({
   name,
   placeHolder,
   required,
+  onChange,
 }: props) => {
   return (
     <div className="mt-2">
@@ -22,6 +24,7 @@ export const Input = ({
       <input
         type={type}
         value={value}
+        onChange={(e) => onChange(e)}
         id={value}
         name={name}
         className={`border my-1 w-full rounded-lg border-slate-400 placeholder:text-sm p-1 ${

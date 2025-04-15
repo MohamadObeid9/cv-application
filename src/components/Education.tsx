@@ -15,15 +15,67 @@ type props = {
   education: typeof exampleData.education;
   expended: boolean;
   onClick: () => void;
+  setEducation: (educationData: typeof exampleData.education) => void;
 };
-export const EducationDetails = ({ education, expended, onClick }: props) => {
+
+export const EducationDetails = ({
+  education,
+  expended,
+  onClick,
+  setEducation,
+}: props) => {
   const [open, setOpen] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
+  // const [editOpen, setEditOpen] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(-1);
   const handleClick = () => {
     onClick();
+    // setEditOpen(false);
+    setOpen(false);
+    setEditingIndex(-1);
   };
-  const addEducationClick = () => {
-    setOpen(open ? false : true);
+
+  const handleChange = (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    type EducationKeys =
+      | "degree"
+      | "university"
+      | "uniLocation"
+      | "startDate"
+      | "endDate";
+    const updated = [...education];
+    updated[index][name as EducationKeys] = value;
+    setEducation(updated);
+  };
+  const handleSave = () => {
+    setEditingIndex(-1);
+  };
+
+  const handleCancel = () => {
+    setEditingIndex(-1);
+  };
+
+  const handleDelete = (index: number) => {
+    const updated = [...education];
+    updated.splice(index, 1);
+    setEducation(updated);
+    setEditingIndex(-1);
+  };
+
+  const addNewEducation = () => {
+    setEducation([
+      ...education,
+      {
+        degree: "",
+        university: "",
+        startDate: "",
+        endDate: "",
+        uniLocation: "",
+      },
+    ]);
+    setEditingIndex(education.length);
   };
   return (
     <div className="border shadow-xl px-5 rounded-lg w-[90%] border-slate-400">
@@ -42,14 +94,21 @@ export const EducationDetails = ({ education, expended, onClick }: props) => {
       </div>
       {expended && (
         <div>
-          {education.map((section) =>
-            editOpen ? (
+          {education.map((section, index) => {
+            return editingIndex === index && open ? (
               <>
-                <div className="border border-slate-400 rounded-lg mt-3 px-3 py-2">
-                  <h1 className="font-bold text-lg">{section.degree}</h1>
+                <div
+                  className="border border-slate-400 rounded-lg mt-3 px-3 py-2"
+                  key={index}
+                  onClick={() => setEditingIndex(index)}
+                >
+                  <h1 className="font-bold text-lg">
+                    {section.degree || "Untitled Degree"}
+                  </h1>
                   <Input
                     type="text"
                     value={section.degree}
+                    onChange={(e) => handleChange(index, e)}
                     title="Degree"
                     name="degree"
                     placeHolder="Degree | Field of study"
@@ -59,36 +118,43 @@ export const EducationDetails = ({ education, expended, onClick }: props) => {
                     type="text"
                     title="School or University"
                     value={section.university}
+                    onChange={(e) => handleChange(index, e)}
                     name="university"
                     placeHolder="School | College | University"
                     required={true}
                   />
                   <Input
-                    type="date"
+                    type="text"
                     title="Start Date"
-                    value={String(new Date(section.startDate))}
+                    value={section.startDate}
+                    onChange={(e) => handleChange(index, e)}
                     name="startDate"
                     placeHolder="02-3-2023"
                     required={true}
                   />
                   <Input
-                    type="date"
+                    type="text"
                     title="End Date"
-                    value={String(new Date(section.endDate))}
+                    value={section.endDate}
+                    onChange={(e) => handleChange(index, e)}
                     name="endDate"
-                    placeHolder="10-2-2025"
+                    placeHolder="10-2-2025 | Present"
                     required={true}
                   />
                   <Input
                     type="text"
                     title="Location"
                     value={section.uniLocation}
+                    onChange={(e) => handleChange(index, e)}
                     name="uniLocation"
                     placeHolder="Berlin,Germany"
                     required={true}
                   />
                   <div className="flex justify-between my-2">
-                    <button className="flex items-center  rounded-lg gap-1 px-1 border border-red-500 hover:bg-red-500 hover:text-white">
+                    <button
+                      className="flex items-center  rounded-lg gap-1 px-1 border border-red-500 hover:bg-red-500 hover:text-white"
+                      onClick={() => handleDelete(index)}
+                    >
                       <Trash2 size={15} />
                       Delete
                     </button>
@@ -96,17 +162,21 @@ export const EducationDetails = ({ education, expended, onClick }: props) => {
                       <button
                         className="flex items-center rounded-lg gap-1 px-1 border border-blue-500 hover:bg-blue-500 hover:text-white"
                         onClick={() => {
-                          setEditOpen(false);
+                          handleSave();
+                          // setEditOpen(false);
+                          setEditingIndex(-1);
                           setOpen(false);
                         }}
                       >
                         <Check size={15} />
-                        Edit
+                        Save
                       </button>
                       <button
                         className="flex items-center rounded-lg gap-1 px-1 border border-black hover:bg-black hover:text-white"
                         onClick={() => {
-                          setEditOpen(false);
+                          handleCancel();
+                          // setEditOpen(false);
+                          setEditingIndex(-1);
                           setOpen(false);
                         }}
                       >
@@ -118,86 +188,27 @@ export const EducationDetails = ({ education, expended, onClick }: props) => {
                 </div>
               </>
             ) : (
-              <div className="flex items-center border border-slate-400 rounded-lg mt-3 px-3 py-2 font-semibold">
+              <div className="flex items-center justify-between border border-slate-400 rounded-lg mt-3 px-3 py-2 font-semibold">
                 {section.degree}
                 <Edit
                   className="hover:text-blue-500"
-                  onClick={() => setEditOpen(true)}
+                  onClick={() => {
+                    setEditingIndex(index);
+                    setOpen(true);
+                  }}
                 />
               </div>
-            )
-          )}
-          {open && (
-            <div className="border border-slate-400 rounded-lg mt-3 px-3 py-2">
-              <h1 className="font-bold text-lg  tracking-wide">{}</h1>
-              <Input
-                type="text"
-                title="Degree"
-                value=""
-                name="degree"
-                placeHolder="Degree | Field of study"
-                required={true}
-              />
-              <Input
-                type="text"
-                title="School or University"
-                value=""
-                name="university"
-                placeHolder="School | College | University"
-                required={true}
-              />
-              <Input
-                type="date"
-                title="Start Date"
-                value=""
-                name="startDate"
-                placeHolder="02-3-2023"
-                required={true}
-              />
-              <Input
-                type="date"
-                title="End Date"
-                value=""
-                name="endDate"
-                placeHolder="10-2-2025"
-                required={true}
-              />
-              <Input
-                type="text"
-                title="Location"
-                value=""
-                name="uniLocation"
-                placeHolder="Berlin,Germany"
-                required={true}
-              />
-              <div className="flex justify-between my-2">
-                <button className="flex items-center  rounded-lg gap-1 px-1 border border-red-500 hover:bg-red-500 hover:text-white">
-                  <Trash2 size={15} />
-                  Delete
-                </button>
-                <div className="flex gap-2">
-                  <button className="flex items-center rounded-lg gap-1 px-1 border border-blue-500 hover:bg-blue-500 hover:text-white">
-                    <Check size={15} />
-                    Save
-                  </button>
-                  <button
-                    className="flex items-center rounded-lg gap-1 px-1 border border-black hover:bg-black hover:text-white"
-                    onClick={() => {
-                      setOpen(false);
-                    }}
-                  >
-                    <X size={15} />
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+            );
+          })}
+
           {/* Add education button */}
           <div className="flex flex-col items-center">
             <button
               className="flex items-center gap-1 font-semibold my-3 border border-blue-400 rounded-full px-3 py-2 hover:bg-blue-400 hover:text-white"
-              onClick={addEducationClick}
+              onClick={() => {
+                addNewEducation();
+                setOpen(true);
+              }}
             >
               <Plus size={20} /> Add Education
             </button>
