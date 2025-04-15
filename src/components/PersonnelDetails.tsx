@@ -1,10 +1,18 @@
 import { User, ChevronDown, ChevronUp } from "lucide-react";
-import { useState } from "react";
+import { exampleData } from "./example";
 import { Input } from "./Input";
-export const PersonnnelDetails = () => {
-  const [expended, setExpended] = useState(false);
+type props = {
+  personnelDetails: typeof exampleData.personnelDetails;
+  expended: boolean;
+  onClick: () => void;
+};
+export const PersonnnelDetails = ({
+  personnelDetails,
+  expended,
+  onClick,
+}: props) => {
   const handleClick = () => {
-    setExpended(expended ? false : true);
+    onClick();
   };
   return (
     <div className=" border px-5  rounded-lg mt-1 lg:mt-5 w-[90%] border-slate-400 shadow-xl">
@@ -22,44 +30,64 @@ export const PersonnnelDetails = () => {
         {expended ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
       </div>
       {expended && (
-        <>
+        <div className="pb-3">
           <Input
-            value="Full Name"
+            title="Full Name"
+            value={personnelDetails.fullName}
+            name="fullName"
             type="text"
-            placeHolder="Jhon Smith"
+            placeHolder="John Smith"
             required={true}
           />
           <Input
-            value="Email"
+            title="Job Title"
+            value={personnelDetails.jobTitle}
+            name="jobTitle"
+            type="text"
+            placeHolder="Full Stack Developer"
+            required={true}
+          />
+          <Input
+            title="Email"
+            value={personnelDetails.email}
+            name="email"
             type="email"
             placeHolder="john.smith@example.com"
             required={true}
           />
           <Input
-            value="Phone Number"
+            title="Phone Number"
+            value={personnelDetails.phone}
+            name="phone"
             type="tel"
             placeHolder="+1 (555) 123-4567"
             required={true}
           />
-          <Input
-            value="Address"
+          {/* <Input
+            title="Address"
+            value=""
+            name=""
             type="text"
             placeHolder="123 Main St, City, Country"
             required={true}
-          />
+          /> */}
           <Input
-            value="LinkedIn Profile"
+            title="LinkedIn Profile"
+            value={personnelDetails.linkedin}
+            name="linkedin"
             type="url"
             placeHolder="https://www.linkedin.com/in/your-profile/"
             required={false}
           />
           <Input
-            value="Github Profile"
+            title="Github Profile"
+            value={personnelDetails.github}
+            name="github"
             type="url"
             placeHolder="https://github.com/your-user-name"
             required={false}
           />
-        </>
+        </div>
       )}
     </div>
   );

@@ -6,15 +6,21 @@ import {
   Trash2,
   Check,
   X,
+  Edit,
 } from "lucide-react";
 import { Input } from "./Input";
 import { useState } from "react";
-export const EducationDetails = () => {
-  const [expended, setExpended] = useState(false);
+import { exampleData } from "./example";
+type props = {
+  education: typeof exampleData.education;
+  expended: boolean;
+  onClick: () => void;
+};
+export const EducationDetails = ({ education, expended, onClick }: props) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("Untitled Degree");
+  const [editOpen, setEditOpen] = useState(false);
   const handleClick = () => {
-    setExpended(expended ? false : true);
+    onClick();
   };
   const addEducationClick = () => {
     setOpen(open ? false : true);
@@ -36,36 +42,131 @@ export const EducationDetails = () => {
       </div>
       {expended && (
         <div>
+          {education.map((section) =>
+            editOpen ? (
+              <>
+                <div className="border border-slate-400 rounded-lg mt-3 px-3 py-2">
+                  <h1 className="font-bold text-lg">{section.degree}</h1>
+                  <Input
+                    type="text"
+                    value={section.degree}
+                    title="Degree"
+                    name="degree"
+                    placeHolder="Degree | Field of study"
+                    required={true}
+                  />
+                  <Input
+                    type="text"
+                    title="School or University"
+                    value={section.university}
+                    name="university"
+                    placeHolder="School | College | University"
+                    required={true}
+                  />
+                  <Input
+                    type="date"
+                    title="Start Date"
+                    value={String(new Date(section.startDate))}
+                    name="startDate"
+                    placeHolder="02-3-2023"
+                    required={true}
+                  />
+                  <Input
+                    type="date"
+                    title="End Date"
+                    value={String(new Date(section.endDate))}
+                    name="endDate"
+                    placeHolder="10-2-2025"
+                    required={true}
+                  />
+                  <Input
+                    type="text"
+                    title="Location"
+                    value={section.uniLocation}
+                    name="uniLocation"
+                    placeHolder="Berlin,Germany"
+                    required={true}
+                  />
+                  <div className="flex justify-between my-2">
+                    <button className="flex items-center  rounded-lg gap-1 px-1 border border-red-500 hover:bg-red-500 hover:text-white">
+                      <Trash2 size={15} />
+                      Delete
+                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        className="flex items-center rounded-lg gap-1 px-1 border border-blue-500 hover:bg-blue-500 hover:text-white"
+                        onClick={() => {
+                          setEditOpen(false);
+                          setOpen(false);
+                        }}
+                      >
+                        <Check size={15} />
+                        Edit
+                      </button>
+                      <button
+                        className="flex items-center rounded-lg gap-1 px-1 border border-black hover:bg-black hover:text-white"
+                        onClick={() => {
+                          setEditOpen(false);
+                          setOpen(false);
+                        }}
+                      >
+                        <X size={15} />
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="flex items-center border border-slate-400 rounded-lg mt-3 px-3 py-2 font-semibold">
+                {section.degree}
+                <Edit
+                  className="hover:text-blue-500"
+                  onClick={() => setEditOpen(true)}
+                />
+              </div>
+            )
+          )}
           {open && (
             <div className="border border-slate-400 rounded-lg mt-3 px-3 py-2">
-              <h1 className="font-bold text-lg  tracking-wide">{value}</h1>
+              <h1 className="font-bold text-lg  tracking-wide">{}</h1>
               <Input
                 type="text"
-                value="Degree"
+                title="Degree"
+                value=""
+                name="degree"
                 placeHolder="Degree | Field of study"
                 required={true}
               />
               <Input
                 type="text"
-                value="School"
+                title="School or University"
+                value=""
+                name="university"
                 placeHolder="School | College | University"
                 required={true}
               />
               <Input
                 type="date"
-                value="Start Date"
+                title="Start Date"
+                value=""
+                name="startDate"
                 placeHolder="02-3-2023"
                 required={true}
               />
               <Input
                 type="date"
-                value="End Date"
+                title="End Date"
+                value=""
+                name="endDate"
                 placeHolder="10-2-2025"
                 required={true}
               />
               <Input
                 type="text"
-                value="Location"
+                title="Location"
+                value=""
+                name="uniLocation"
                 placeHolder="Berlin,Germany"
                 required={true}
               />

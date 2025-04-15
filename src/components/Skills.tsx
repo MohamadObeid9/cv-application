@@ -6,15 +6,21 @@ import {
   Trash2,
   Check,
   X,
+  Edit,
 } from "lucide-react";
 import { useState } from "react";
 import { Input } from "./Input";
-export const Skills = () => {
-  const [expended, setExpended] = useState(false);
+import { exampleData } from "./example";
+type props = {
+  skills: typeof exampleData.technicalSkills;
+  expended: boolean;
+  onClick: () => void;
+};
+export const Skills = ({ skills, expended, onClick }: props) => {
   const [open, setOpen] = useState(false);
-  // const [value, setValue] = useState("Untitled Degree");
+  const [editOpen, setEditOpend] = useState(false);
   const handleClick = () => {
-    setExpended(expended ? false : true);
+    onClick();
   };
   const addSkillsClick = () => {
     setOpen(open ? false : true);
@@ -37,17 +43,85 @@ export const Skills = () => {
       </div>
       {expended && (
         <div>
+          {skills.map((skill) =>
+            editOpen ? (
+              <>
+                <div className="border border-slate-400 rounded-lg mt-3 px-3 py-2">
+                  <Input
+                    type="text"
+                    title="Skill Category"
+                    value={skill.skillTitle}
+                    name="skillTitle"
+                    placeHolder="E.g.,Progamming Languages ,Soft Skills"
+                    required={false}
+                  />
+                  <Input
+                    type="text"
+                    title="Skills (comma separated)"
+                    value={skill.skills}
+                    name="skills"
+                    placeHolder="E.g.,Java,Python,React,Djando,Node"
+                    required={false}
+                  />
+                  <div className="flex justify-between my-2">
+                    <button className="flex items-center  rounded-lg gap-1 px-1 border border-red-500 hover:bg-red-500 hover:text-white">
+                      <Trash2 size={15} />
+                      Delete
+                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        className="flex items-center rounded-lg gap-1 px-1 border border-blue-500 hover:bg-blue-500 hover:text-white"
+                        onClick={() => {
+                          setOpen(false);
+                          setEditOpend(false);
+                        }}
+                      >
+                        <Check size={15} />
+                        Edit
+                      </button>
+                      <button
+                        className="flex items-center rounded-lg gap-1 px-1 border border-black hover:bg-black hover:text-white"
+                        onClick={() => {
+                          setOpen(false);
+                          setEditOpend(false);
+                        }}
+                      >
+                        <X size={15} />
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="border border-slate-400 rounded-lg mt-3 px-3 py-2">
+                <div className="font-bold pb-2 flex items-center justify-between">
+                  {skill.skillTitle}
+                  <Edit
+                    size={20}
+                    className="hover:text-blue-500"
+                    onClick={() => setEditOpend(true)}
+                  />
+                </div>
+                <div className="text-sm">{skill.skills}</div>
+              </div>
+            )
+          )}
           {open && (
             <div className="border border-slate-400 rounded-lg mt-3 px-3 py-2">
               <Input
                 type="text"
-                value="Skill Category"
+                title="Skill Category"
+                value=""
+                name="skillTitle"
                 placeHolder="E.g.,Progamming Languages ,Soft Skills"
                 required={false}
               />
               <Input
                 type="text"
-                value="Skills (comma separated)"
+                title="Skills (comma separated)"
+                value=""
+                name="skills"
                 placeHolder="E.g.,Java,Python,React,Djando,Node"
                 required={false}
               />
