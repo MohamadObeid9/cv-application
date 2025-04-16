@@ -3,25 +3,21 @@ import { exampleData } from "./example";
 type props = {
   openNavBar: React.Dispatch<React.SetStateAction<boolean>>;
   data: typeof exampleData;
-  ref: React.RefObject<HTMLDivElement | null>;
 };
-export const Preview = ({ openNavBar, data, ref }: props) => {
+export const Preview = ({ openNavBar, data }: props) => {
   const handleClick = () => {
     openNavBar(true);
   };
   return (
     <div className="bg-gray-300 w-full h-screen overflow-auto">
-      <div className="bg-gray-400 py-px sticky top-0">
+      <div className="bg-gray-400 py-px sticky top-0 print:hidden">
         <LucideLayers3
           className="m-5 lg:hidden cursor-pointer"
           size={25}
           onClick={handleClick}
         />
       </div>
-      <div
-        className="bg-white min-h-[85vh] mx-5 md:mx-10 mt-5 mb-10 px-5 md:px-10 pt-2 md:pt-5 pb-5 md:pb-10 flex flex-col"
-        ref={ref}
-      >
+      <div className="bg-white min-h-[85vh] mx-5 md:mx-10 mt-5 mb-10 px-5 md:px-10 pt-2 md:pt-5 pb-5 md:pb-10 flex flex-col">
         <h1 className="text-center font-bold text-3xl capitalize mt-5 mb-1 tracking-wide">
           {data.personnelDetails.fullName}
         </h1>

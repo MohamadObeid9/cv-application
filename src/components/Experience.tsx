@@ -77,8 +77,13 @@ export const ExperienceDetails = ({
     ]);
     setEditingIndex(experience.length);
   };
-  const addResponsibilityClick = () => {
-    // setResponsibility((prev) => prev + 1);
+  const addResponsibilityClick = (index: number) => {
+    const updatedExperience = [...experience];
+    updatedExperience[index].responsibilities.push({
+      key: crypto.randomUUID(),
+      task: "",
+    });
+    setExperience(updatedExperience);
     setOpenResponsibility(true);
   };
   return (
@@ -161,9 +166,11 @@ export const ExperienceDetails = ({
                           Responsibilities
                         </h2>
                         {section.responsibilities.map((task) => (
-                          <div className="flex gap-1 items-center">
+                          <div
+                            className="flex gap-1 items-center"
+                            key={String(task.key)}
+                          >
                             <input
-                              key={String(task.key)}
                               value={task.task}
                               type="text"
                               placeholder="Add a skill or an achievement"
@@ -204,7 +211,7 @@ export const ExperienceDetails = ({
                     )}
                   </div>
                   <button
-                    onClick={addResponsibilityClick}
+                    onClick={() => addResponsibilityClick(index)}
                     className="flex items-center gap-2 border-green-400 border rounded-lg tracking-wide font-semibold px-2 py-1 my-4 text-sm hover:bg-green-400 hover:text-white "
                   >
                     <Plus size={17} />
