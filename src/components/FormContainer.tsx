@@ -46,6 +46,12 @@ export const FormContainer = ({ data, setData }: props) => {
       technicalSkills: skillData,
     }));
   };
+  const setExperience = (experienceData: typeof exampleData.workExperience) => {
+    setData((prev) => ({
+      ...prev,
+      workExperience: experienceData,
+    }));
+  };
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <div className="xl:bg-gray-100 flex flex-col max-xl:my-3 items-center gap-3  w-sm max-xl:py-2 max-xl:max-h-[75vh] max-h-screen xl:pb-10 overflow-auto">
@@ -75,7 +81,7 @@ export const FormContainer = ({ data, setData }: props) => {
       />
       <Skills
         skills={data.technicalSkills}
-        onChange={setSkills}
+        setSkill={setSkills}
         expended={activeIndex === 4}
         onClick={() =>
           activeIndex !== 4 ? setActiveIndex(4) : setActiveIndex(0)
@@ -83,6 +89,7 @@ export const FormContainer = ({ data, setData }: props) => {
       />
       <ExperienceDetails
         experience={data.workExperience}
+        setExperience={setExperience}
         expended={activeIndex === 5}
         onClick={() =>
           activeIndex !== 5 ? setActiveIndex(5) : setActiveIndex(0)

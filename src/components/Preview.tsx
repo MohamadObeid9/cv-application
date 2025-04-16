@@ -3,8 +3,9 @@ import { exampleData } from "./example";
 type props = {
   openNavBar: React.Dispatch<React.SetStateAction<boolean>>;
   data: typeof exampleData;
+  ref: React.RefObject<HTMLDivElement | null>;
 };
-export const Preview = ({ openNavBar, data }: props) => {
+export const Preview = ({ openNavBar, data, ref }: props) => {
   const handleClick = () => {
     openNavBar(true);
   };
@@ -17,7 +18,10 @@ export const Preview = ({ openNavBar, data }: props) => {
           onClick={handleClick}
         />
       </div>
-      <div className="bg-white min-h-[85vh] mx-5 md:mx-10 mt-5 mb-10 px-5 md:px-10 pt-2 md:pt-5 pb-5 md:pb-10 flex flex-col">
+      <div
+        className="bg-white min-h-[85vh] mx-5 md:mx-10 mt-5 mb-10 px-5 md:px-10 pt-2 md:pt-5 pb-5 md:pb-10 flex flex-col"
+        ref={ref}
+      >
         <h1 className="text-center font-bold text-3xl capitalize mt-5 mb-1 tracking-wide">
           {data.personnelDetails.fullName}
         </h1>

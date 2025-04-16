@@ -42,13 +42,6 @@ export const exampleData = {
       startDate: "2015",
       endDate: "2017",
     },
-    {
-      degree: "Master of Science in  Science",
-      university: "University of Technology",
-      uniLocation: "Boston,MA",
-      startDate: "2015",
-      endDate: "2017",
-    },
   ],
   technicalSkills: [
     {

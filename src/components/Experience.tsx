@@ -15,22 +15,70 @@ type props = {
   experience: typeof exampleData.workExperience;
   expended: boolean;
   onClick: () => void;
+  setExperience: (experienceData: typeof exampleData.workExperience) => void;
 };
-export const ExperienceDetails = ({ experience, expended, onClick }: props) => {
+export const ExperienceDetails = ({
+  experience,
+  expended,
+  onClick,
+  setExperience,
+}: props) => {
   const [open, setOpen] = useState(false);
-  const [responsibility, setResponsibility] = useState(0);
+  // const [responsibility, setResponsibility] = useState(0);
   const [openResponsibility, setOpenResponsibility] = useState(false);
-  const [editOpen, setEditOpen] = useState(false);
+  // const [editOpen, setEditOpen] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(-1);
   const handleClick = () => {
     onClick();
-    setEditOpen(false);
+    // setEditOpen(false);
     setOpen(false);
+    setEditingIndex(-1);
   };
-  const addExperienceClick = () => {
-    setOpen(open ? false : true);
+  const handleChange = (
+    index: number,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = e.target;
+    type ExperienceKeys =
+      | "jobTitle"
+      | "company"
+      | "companyLocation"
+      | "startDate"
+      | "endDate";
+    const updated = [...experience];
+    updated[index][name as ExperienceKeys] = value;
+    setExperience(updated);
+  };
+  const handleSave = () => {
+    setEditingIndex(-1);
+  };
+  const handleCancel = () => {
+    setEditingIndex(-1);
+  };
+
+  const handleDelete = (index: number) => {
+    const updated = [...experience];
+    updated.splice(index, 1);
+    setExperience(updated);
+    setEditingIndex(-1);
+  };
+
+  const addNewExperience = () => {
+    setExperience([
+      ...experience,
+      {
+        jobTitle: "",
+        company: "",
+        companyLocation: "",
+        startDate: "",
+        endDate: "",
+        responsibilities: [],
+      },
+    ]);
+    setEditingIndex(experience.length);
   };
   const addResponsibilityClick = () => {
-    setResponsibility((prev) => prev + 1);
+    // setResponsibility((prev) => prev + 1);
     setOpenResponsibility(true);
   };
   return (
@@ -50,15 +98,22 @@ export const ExperienceDetails = ({ experience, expended, onClick }: props) => {
       </div>
       {expended && (
         <div>
-          {experience.map((section) =>
-            editOpen ? (
+          {experience.map((section, index) =>
+            editingIndex === index && open ? (
               <>
-                <div className="border border-slate-400 rounded-lg mt-3 px-3 py-2">
-                  <h1 className="font-bold text-lg  tracking-wide"></h1>
+                <div
+                  className="border border-slate-400 rounded-lg mt-3 px-3 py-2"
+                  key={index}
+                  onClick={() => setEditingIndex(index)}
+                >
+                  <h1 className="font-bold text-lg  tracking-wide">
+                    {section.jobTitle || "Untitled Role"}
+                  </h1>
                   <Input
                     type="text"
                     title="Job Title"
                     value={section.jobTitle}
+                    onChange={(e) => handleChange(index, e)}
                     name="jobTitle"
                     placeHolder="Full Stack Developper | Machine Learn Engineer"
                     required={true}
@@ -67,30 +122,34 @@ export const ExperienceDetails = ({ experience, expended, onClick }: props) => {
                     type="text"
                     title="Company"
                     value={section.company}
+                    onChange={(e) => handleChange(index, e)}
                     name="company"
                     placeHolder="Google | Apple | Microsoft"
                     required={true}
                   />
                   <Input
-                    type="date"
+                    type="text"
                     title="Start Date"
                     value={section.startDate}
+                    onChange={(e) => handleChange(index, e)}
                     name="startDate"
                     placeHolder="02-3-2023"
                     required={true}
                   />
                   <Input
-                    type="date"
+                    type="text"
                     title="End Date"
                     value={section.endDate}
+                    onChange={(e) => handleChange(index, e)}
                     name="endDate"
-                    placeHolder="10-2-2025"
+                    placeHolder="10-2-2025 | present"
                     required={true}
                   />
                   <Input
                     type="text"
                     title="Location"
                     value={section.companyLocation}
+                    onChange={(e) => handleChange(index, e)}
                     name="companyLocation"
                     placeHolder="Berlin,Germany"
                     required={true}
@@ -101,26 +160,46 @@ export const ExperienceDetails = ({ experience, expended, onClick }: props) => {
                         <h2 className="font-semibold tracking-wide text-lg mt-2">
                           Responsibilities
                         </h2>
-                        {/* Render responsibilities dynamically */}
-                        {Array.from({ length: responsibility }).map(
-                          (_, index) => (
-                            <div className="flex gap-1 items-center">
-                              <input
-                                key={index}
-                                type="text"
-                                placeholder="Add a skill or an achievement"
-                                className="border my-1 w-full rounded-lg border-slate-400 placeholder:text-xs p-1"
-                              />
-                              <X
-                                className="border border-red-500 p-1 rounded-lg hover:bg-red-500 hover:text-white "
-                                size={30}
-                                onClick={() => {
-                                  setResponsibility((prev) => prev - 1);
-                                }}
-                              />
-                            </div>
-                          )
-                        )}
+                        {section.responsibilities.map((task) => (
+                          <div className="flex gap-1 items-center">
+                            <input
+                              key={String(task.key)}
+                              value={task.task}
+                              type="text"
+                              placeholder="Add a skill or an achievement"
+                              className="border my-1 w-full rounded-lg border-slate-400 placeholder:text-xs p-1"
+                              onChange={(e) => {
+                                const updatedResponsibilities = [
+                                  ...section.responsibilities,
+                                ];
+                                updatedResponsibilities[
+                                  section.responsibilities.indexOf(task)
+                                ] = {
+                                  ...task,
+                                  task: e.target.value,
+                                };
+                                const updatedExperience = [...experience];
+                                updatedExperience[index].responsibilities =
+                                  updatedResponsibilities;
+                                setExperience(updatedExperience);
+                              }}
+                            />
+                            <X
+                              className="border border-red-500 p-1 rounded-lg hover:bg-red-500 hover:text-white "
+                              size={30}
+                              onClick={() => {
+                                const updatedResponsibilities =
+                                  section.responsibilities.filter(
+                                    (t) => t !== task
+                                  );
+                                const updatedExperience = [...experience];
+                                updatedExperience[index].responsibilities =
+                                  updatedResponsibilities;
+                                setExperience(updatedExperience);
+                              }}
+                            />
+                          </div>
+                        ))}
                       </>
                     )}
                   </div>
@@ -132,20 +211,33 @@ export const ExperienceDetails = ({ experience, expended, onClick }: props) => {
                     Add Responsibility
                   </button>
                   <div className="flex justify-between my-2">
-                    <button className="flex items-center  rounded-lg gap-1 px-1 border border-red-500 hover:bg-red-500 hover:text-white">
+                    <button
+                      className="flex items-center  rounded-lg gap-1 px-1 border border-red-500 hover:bg-red-500 hover:text-white"
+                      onClick={() => handleDelete(index)}
+                    >
                       <Trash2 size={15} />
                       Delete
                     </button>
                     <div className="flex gap-2">
-                      <button className="flex items-center rounded-lg gap-1 px-1 border border-blue-500 hover:bg-blue-500 hover:text-white">
+                      <button
+                        className="flex items-center rounded-lg gap-1 px-1 border border-blue-500 hover:bg-blue-500 hover:text-white"
+                        onClick={() => {
+                          handleSave();
+                          // setEditOpen(false);
+                          setEditingIndex(-1);
+                          setOpen(false);
+                        }}
+                      >
                         <Check size={15} />
                         Save
                       </button>
                       <button
                         className="flex items-center rounded-lg gap-1 px-1 border border-black hover:bg-black hover:text-white"
                         onClick={() => {
+                          handleCancel();
+                          // setEditOpen(false);
+                          setEditingIndex(-1);
                           setOpen(false);
-                          setEditOpen(false);
                         }}
                       >
                         <X size={15} />
@@ -161,114 +253,23 @@ export const ExperienceDetails = ({ experience, expended, onClick }: props) => {
                 <Edit
                   size={20}
                   className="hover:text-blue-500"
-                  onClick={() => setEditOpen(true)}
+                  onClick={() => {
+                    setEditingIndex(index);
+                    setOpen(true);
+                  }}
                 />
               </div>
             )
           )}
-          {open && (
-            <div className="border border-slate-400 rounded-lg mt-3 px-3 py-2">
-              <h1 className="font-bold text-lg  tracking-wide"></h1>
-              <Input
-                type="text"
-                title="Job Title"
-                value=""
-                name="jobTitle"
-                placeHolder="Full Stack Developper | Machine Learn Engineer"
-                required={true}
-              />
-              <Input
-                type="text"
-                title="Company"
-                value=""
-                name="company"
-                placeHolder="Google | Apple | Microsoft"
-                required={true}
-              />
-              <Input
-                type="date"
-                title="Start Date"
-                value=""
-                name="startDate"
-                placeHolder="02-3-2023"
-                required={true}
-              />
-              <Input
-                type="date"
-                title="End Date"
-                value=""
-                name="endDate"
-                placeHolder="10-2-2025"
-                required={true}
-              />
-              <Input
-                type="text"
-                title="Location"
-                value=""
-                name="companyLocation"
-                placeHolder="Berlin,Germany"
-                required={true}
-              />
-              <div>
-                {openResponsibility && (
-                  <>
-                    <h2 className="font-semibold tracking-wide text-lg mt-2">
-                      Responsibilities
-                    </h2>
-                    {/* Render responsibilities dynamically */}
-                    {Array.from({ length: responsibility }).map((_, index) => (
-                      <div className="flex gap-1 items-center">
-                        <input
-                          key={index}
-                          type="text"
-                          placeholder="Add a skill or an achievement"
-                          className="border my-1 w-full rounded-lg border-slate-400 placeholder:text-xs p-1"
-                        />
-                        <X
-                          className="border border-red-500 p-1 rounded-lg hover:bg-red-500 hover:text-white "
-                          size={30}
-                          onClick={() => {
-                            setResponsibility((prev) => prev - 1);
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </>
-                )}
-              </div>
-              <button
-                onClick={addResponsibilityClick}
-                className="flex items-center gap-2 border-green-400 border rounded-lg tracking-wide font-semibold px-2 py-1 my-4 text-sm hover:bg-green-400 hover:text-white "
-              >
-                <Plus size={17} />
-                Add Responsibility
-              </button>
-              <div className="flex justify-between my-2">
-                <button className="flex items-center  rounded-lg gap-1 px-1 border border-red-500 hover:bg-red-500 hover:text-white">
-                  <Trash2 size={15} />
-                  Delete
-                </button>
-                <div className="flex gap-2">
-                  <button className="flex items-center rounded-lg gap-1 px-1 border border-blue-500 hover:bg-blue-500 hover:text-white">
-                    <Check size={15} />
-                    Save
-                  </button>
-                  <button
-                    className="flex items-center rounded-lg gap-1 px-1 border border-black hover:bg-black hover:text-white"
-                    onClick={() => setOpen(false)}
-                  >
-                    <X size={15} />
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
+
           {/* Add education button */}
           <div className="flex flex-col items-center">
             <button
               className="flex items-center gap-1 font-semibold my-3 border border-blue-400 rounded-full px-3 py-2 hover:bg-blue-400 hover:text-white"
-              onClick={addExperienceClick}
+              onClick={() => {
+                addNewExperience();
+                setOpen(true);
+              }}
             >
               <Plus size={20} /> Add Experience
             </button>

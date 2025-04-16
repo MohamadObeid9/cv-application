@@ -4,8 +4,14 @@ type props = {
   closeNavBar: React.Dispatch<React.SetStateAction<boolean>>;
   clear: () => void;
   example: () => void;
+  download: () => void;
 };
-export const BtnContainer = ({ closeNavBar, clear, example }: props) => {
+export const BtnContainer = ({
+  closeNavBar,
+  clear,
+  example,
+  download,
+}: props) => {
   return (
     <div className="px-5 max-xl:sticky  max-xl:top-0 flex flex-col xl:max-h-screen justify-between xl:border-r  border-gray-400  ">
       <div>
@@ -39,7 +45,10 @@ export const BtnContainer = ({ closeNavBar, clear, example }: props) => {
           >
             <Trash2 size={18} /> Clear
           </button>
-          <button className="flex gap-2 xl:text-lg border w-28  xl:w-32 py-1 rounded-2xl items-center justify-center text-green-500 hover:bg-green-500 hover:text-white">
+          <button
+            className="flex gap-2 xl:text-lg border w-28  xl:w-32 py-1 rounded-2xl items-center justify-center text-green-500 hover:bg-green-500 hover:text-white"
+            onClick={download}
+          >
             <Download size={18} /> Download
           </button>
         </div>
